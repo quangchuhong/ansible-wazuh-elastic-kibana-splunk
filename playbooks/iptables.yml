@@ -1,0 +1,5 @@
+---
+- hosts: u16-server
+  become: true
+  roles:
+    - role: ../roles/iptables

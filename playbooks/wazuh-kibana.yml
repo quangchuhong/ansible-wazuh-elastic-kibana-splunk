@@ -1,6 +1,6 @@
 ---
-- hosts: <KIBANA_HOST>
+- hosts: u16-server
   roles:
     - role: ../roles/elastic-stack/ansible-kibana
-      elasticsearch_network_host: <YOUR_ELASTICSEARCH_IP>
+      elasticsearch_network_host: 192.168.17.136
 

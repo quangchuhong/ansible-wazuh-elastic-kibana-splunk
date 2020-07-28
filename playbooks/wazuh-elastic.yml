@@ -1,5 +1,5 @@
 ---
-- hosts: <YOUR_ELASTICSEARCH_IP>
+- hosts: u1604-server
   roles:
     - role: ../roles/elastic-stack/ansible-elasticsearch
-      elasticsearch_network_host: '<YOUR_ELASTICSEARCH_IP>'
+      elasticsearch_network_host: 'localhost'

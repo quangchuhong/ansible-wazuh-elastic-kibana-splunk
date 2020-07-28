@@ -1,0 +1,92 @@
+---
+
+# check firewalld vs disabled on centos7
+
+- name: Check if firewalld package is installed (on RHEL).
+  command: yum list installed firewalld
+  args:
+    warn: false                                                 ## hien thi warning khi run task, false: ko hien thi
+  register: firewalld_installed
+  ignore_errors: true
+  changed_when: false                                           ## changed_when DK, return code or its stdout or stderr command
+  tags:
+    - iptables-Cen7                                           
+
+- name: Disable the firewalld service (on RHEL, if configured).
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: no 
+    masked: no
+  tags:
+    - iptables-Cen7
+
+- name: Install iptables packages
+  yum:
+    name: iptables-services
+    state: present
+  tags:
+    - iptables-Cen7
+
+- name: service iptables started
+  systemd:
+    name: iptables
+    state: started
+    enabled: yes
+  tags:
+    - iptables-Cen7
+
+- name: Flush iptables the first time playbook runs.
+  command: >
+    iptables -F
+    creates=/etc/firewall.bash
+  tags:
+    - iptables-Cen7
+
+- name: Copy firewall script into place.
+  template:
+    src: firewall.bash.j2
+    dest: /etc/firewall.bash
+    owner: root
+    group: root
+    mode: 0744
+  notify: restart firewall
+  tags:
+    - iptables-Cen7
+
+- name: Copy firewall init script into place.
+  template:
+    src: firewall.init.j2
+    dest: /etc/init.d/firewall
+    owner: root
+    group: root
+    mode: 0755
+  when: "ansible_service_mgr != 'systemd'"
+  tags:
+    - iptables-Cen7
+
+- name: Copy firewall systemd unit file into place (for systemd systems).
+  template:
+    src: firewall.unit.j2
+    dest: /etc/systemd/system/firewall.service
+    owner: root
+    group: root
+    mode: 0644
+  when: "ansible_service_mgr == 'systemd'"
+  tags:
+    - iptables-Cen7
+
+- name: Configure the firewall service.
+  service:
+    name: firewall
+    state: started
+    enabled: true
+  tags:
+    - iptables-Cen7
+
+
+
+
+
+
+

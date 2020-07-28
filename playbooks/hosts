@@ -1,0 +1,7 @@
+[cen7-server]
+192.168.17.106	ansible_user=root
+
+[u16-server]
+192.168.17.136	ansible_user=quangch
+
+

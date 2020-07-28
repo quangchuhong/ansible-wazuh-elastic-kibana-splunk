@@ -1,0 +1,6 @@
+---
+# handlers file restart services
+#
+- name: restart firewall
+  service: name=firewall state=restarted
+
