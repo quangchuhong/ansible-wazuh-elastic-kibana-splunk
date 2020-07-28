@@ -1,0 +1,6 @@
+---
+- include_tasks: "Windows.yml"
+  when: ansible_os_family == "Windows"
+
+- include_tasks: "Linux.yml"
+  when: ansible_system == "Linux"
