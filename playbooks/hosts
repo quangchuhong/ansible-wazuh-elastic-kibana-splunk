@@ -4,4 +4,9 @@
 [u16-server]
 192.168.17.136	ansible_user=quangch
 
+[u16-agent]
+192.168.17.87	ansible_user=quangch
+192.168.50.60	ansible_user=quangch
+192.168.50.25	ansible_user=quangch
+
 
